@@ -1,0 +1,24 @@
+<% if session[:f_name] %>
+
+  <h2>Hello <%= session[:f_name] %></h2>
+
+  <a href="/students/new">Add a new Student</a>
+
+  <p>Well done, <%= session[:f_name] %>!
+     You are now verified with LinkedIn!</p>
+     <p>Here is your picture:</p>
+     <img src="<%= session[:user_image] %>" alt="">
+     <p>Job Title: <%= session[:job_title] %></p>
+
+     <h3>You are assigned to the following students:</h3>
+     <ul>
+        <% $redis.lrange("student_ids").each do |id| %>
+        <li><%= if JSON.parse($redis.hget("student:#{id}", "teachers").include?(session["l_name"])
+         puts $redis.hget("student:#{id}", "name") %></li>
+        <% end %>
+
+     </ul>
+
+  <% else %>
+  <a href="<%= @linkedin_auth_url %>">Login with LinkedIn!</a>
+<% end %>

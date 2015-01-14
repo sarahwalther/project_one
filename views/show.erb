@@ -1,0 +1,17 @@
+<div class="inside-headers">
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="">Add Teacher</a></li>
+  </ul>
+
+  <div class="top-of-student">
+    <h2><%= @student["name"] %></h2>
+    <h4>Goals:</h4>
+    <ul>
+      <% JSON.parse(@student["goals"]).each do |goal| %>
+      <li><%= goal %></li>
+      <% end %>
+    </ul>
+  </div>
+
+</div>
