@@ -24,10 +24,9 @@ module ProgressNotes
 
     def add_teacher(teacher)
       teachers = []
-      teachers << (@student["teacher_admin"])
       teachers << $redis.hget("teachers", teacher)
       $redis.hset(
-        "student:#{@student["sid"]}",
+        "student:#{@id}",
         "teachers", teachers.to_json)
     end
 

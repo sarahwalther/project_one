@@ -24,5 +24,5 @@ As a teacher (user)...
 1. I can filter by tags that may have been added to the comments (ex: behavior).
 
 
-I can edit or remove a goal after I created a student (hover and edit?)
+I can edit, add. or remove a goal after I created a student (hover and edit?)
 I can rate a student's behavior

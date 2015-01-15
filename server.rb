@@ -22,6 +22,7 @@ module ProgressNotes
         :redirect_uri   => "http://localhost:9292/linkedin/oauth_callback"
         })
       @linkedin_auth_url = "https://www.linkedin.com/uas/oauth2/authorization?" + query_params
+      binding.pry
       render(:erb, :index, {:layout => :default})
     end
 
@@ -60,7 +61,7 @@ module ProgressNotes
       render(:erb, :show, {:layout => :default})
     end
 
-    post ('/') do
+    post('/') do
       sid = $redis.incr("student_id")
       date = Date.today
       $redis.hmset(
@@ -76,6 +77,14 @@ module ProgressNotes
         )
       $redis.lpush("student_ids", sid)
       redirect('/')
+    end
+
+    post('/students/:id') do
+      @id = params[:id]
+      teacher = params["addteacher"]
+      binding.pry
+      add_teacher(teacher)
+      redirect("/students/#{@id}")
     end
 
   end

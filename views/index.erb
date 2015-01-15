@@ -12,11 +12,18 @@
 
      <h3>You are assigned to the following students:</h3>
      <ul>
-        <% $redis.lrange("student_ids").each do |id| %>
-        <li><%= if JSON.parse($redis.hget("student:#{id}", "teachers").include?(session["l_name"])
-         puts $redis.hget("student:#{id}", "name") %></li>
+        <% $redis.lrange("student_ids", 0, -1).each do |id| %>
+          <% if  $redis.hget("student:#{id}", "teachers") != nil %>
+            <% if JSON.parse($redis.hget("student:#{id}", "teachers")).include?(session[:l_name]) %>
+              <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
+            <% end %>
+          <% end %>
         <% end %>
-
+        <% $redis.lrange("student_ids", 0, -1).each do |id| %>
+          <% if $redis.hget("student:#{id}", "teacher_admin") == session[:l_name] %>
+            <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
+          <% end %>
+        <% end %>
      </ul>
 
   <% else %>

@@ -1,7 +1,25 @@
 <div class="inside-headers">
   <ul>
     <li><a href="/">Home</a></li>
-    <li><a href="">Add Teacher</a></li>
+    <li>Teachers: </li>
+    <li><%= @student["teacher_admin"]%></li>
+    <% if @student["teachers"] != nil %>
+      <% JSON.parse(@student["teachers"]).each do |teacher| %>
+        <li><%= teacher %></li>
+      <% end %>
+    <% end %>
+    <li>
+      <form action="/students/<%= @student["sid"] %>" method="post">
+        <label>Add Teacher:
+          <select name="addteacher">
+            <% $redis.hkeys("teachers").each do |teacher| %>
+              <option value="<%= teacher %>"><%= $redis.hget("teachers", teacher) %></a></option>
+            <% end %>
+          </select>
+        </label>
+          <input type="submit" name="Add">
+      </form>
+    </li>
   </ul>
 
   <div class="top-of-student">
