@@ -3,11 +3,12 @@
     <li><a href="/">Home</a></li>
     <li>Teachers: </li>
     <li><%= @student["teacher_admin"]%></li>
-    <% if @student["teachers"] != nil %>
-      <% JSON.parse(@student["teachers"]).each do |teacher| %>
-        <li><%= teacher %></li>
+      <% if @student["teachers"] != nil %>
+        <% JSON.parse(@student["teachers"]).each do |teacher| %>
+          <li><%= teacher %></li>
+        <% end %>
       <% end %>
-    <% end %>
+    <li><a href="/students/new/<%= @student["name"] %>">Edit Student Info</a></li>
     <li>
       <form action="/students/<%= @student["sid"] %>" method="post">
         <label>Add Teacher:
@@ -17,19 +18,77 @@
             <% end %>
           </select>
         </label>
-          <input type="submit" name="Add">
+          <input type="submit" name="submit">
       </form>
     </li>
   </ul>
-
-  <div class="top-of-student">
-    <h2><%= @student["name"] %></h2>
-    <h4>Goals:</h4>
-    <ul>
-      <% JSON.parse(@student["goals"]).each do |goal| %>
-      <li><%= goal %></li>
-      <% end %>
-    </ul>
-  </div>
-
 </div>
+
+<div class="top-of-student">
+  <h2><%= @student["name"] %></h2>
+  <form method="post" action="/students/<%= @student["sid"] %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete Student">
+  </form>
+
+  <h4>Goals:</h4>
+  <ul>
+    <% JSON.parse(@student["goals"]).each do |goal| %>
+    <li><%= goal %></li>
+    <% end %>
+  </ul>
+  <% query_params = URI.encode_www_form({
+    :name   => @student["name"],
+    :goals  => "goal"
+    }) %>
+  <% goal_adjustment_link = "/students/new/?" + query_params %>
+  <button><a href="<%= goal_adjustment_link %>">Edit Goals </a></button>
+</div>
+
+<div class="box">
+  <form action="/students/<%= @student["sid"] %>" method="post">
+    <label>Create a new Progress Note:
+      <input type="text" name="progress_note">
+    </label>
+    <span class="star-rating">
+      <input type="radio" name="rating" value="1"><i></i>
+      <input type="radio" name="rating" value="2"><i></i>
+      <input type="radio" name="rating" value="3"><i></i>
+      <input type="radio" name="rating" value="4"><i></i>
+      <input type="radio" name="rating" value="5"><i></i>
+    </span>
+    <strong class="choice">Behavior</strong>
+    <input type="submit" name="submit">
+  </form>
+
+  <div class="notes">
+    <% if $redis.hget("student:#{@student["sid"]}", "notes") != nil %>
+      <% note_array = JSON.parse(@student["notes"]) %>
+      <% note_array.each do |note| %>
+        <div class="note">
+          <% query_params = URI.encode_www_form({
+            :name      => @student["name"],
+            :note_id   => JSON.parse(note)[0]
+            }) %>
+          <% note_link = "/students/new?" + query_params %>
+          <h5><a href="<%= note_link %>"><%= JSON.parse(note)[1] %></a></h5>
+           <% require 'pry'; binding.pry %>
+          <form method="post" action="/students/notes/<%= @student["sid"] %>/<%= JSON.parse(note)[0] %>">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" value="delete">
+          </form>
+          <p><%= JSON.parse(note)[2] %></p>
+          <p><%= JSON.parse(note)[3] %></p>
+          <img src="<%= $redis.hget("teacher_thumbnails", JSON.parse(note)[3]) %>" alt="picture of teacher">
+          <p>Behavior Rating: </p>
+          <p><%= JSON.parse(note)[4] %> Stars</p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

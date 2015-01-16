@@ -1,32 +1,112 @@
-<h2>Create a new Student</h2>
+<a href="/">Home</a>
 
-<ul class="new-student">
-  <form method="post" action="/">
+<% if @id == nil %>
+  <h2>Create a new Student</h2>
 
-    <li><label><p>Name:</p>
-      <input type="text" name="name" required>
-    </label></li>
+  <ul class="new-student">
+    <form method="post" action="/">
 
-    <li><label><p>Grade:</p>
-      <input type="text" name="grade">
-    </label></li>
+      <li><label><p>Name:</p>
+        <input type="text" name="name" required>
+      </label></li>
 
-    <li><label><p>Parent:</p>
-      <input type="text" name="parent">
-    </label></li>
+      <li><label><p>Grade:</p>
+        <input type="text" name="grade">
+      </label></li>
 
-    <li><label><p>Parent Contact:</p>
-      <input type="text" name="contact">
-    </label></li>
+      <li><label><p>Parent:</p>
+        <input type="text" name="parent">
+      </label></li>
 
-    <li><label><p>Goals:</p>
-      <input type="text" name="goals[]">
-      <input type="text" name="goals[]">
-      <input type="text" name="goals[]">
-      <input type="text" name="goals[]">
-      <input type="text" name="goals[]">
-    </label></li>
+      <li><label><p>Parent Contact:</p>
+        <input type="text" name="contact">
+      </label></li>
 
-    <li><input type="submit" name="Add Student"></li>
-  </form>
-</ul>
+      <li><label><p>Goals:</p>
+        <input type="text" name="goals[]">
+        <input type="text" name="goals[]">
+        <input type="text" name="goals[]">
+        <input type="text" name="goals[]">
+        <input type="text" name="goals[]">
+      </label></li>
+
+      <li><input type="submit" name="Add Student"></li>
+    </form>
+  </ul>
+
+<% elsif (@goals == nil) && (@note_id == nil) %>
+
+  <h2>Update Student Info for <%= $redis.hget("student:#{@id}", "name") %></h2>
+
+  <ul class="update-student">
+    <form method="post" action="/<%= $redis.hget("student:#{@id}", "name") %>">
+
+      <li><label><p>Grade:</p>
+        <input type="text" name="grade" value="<%= $redis.hget("student:#{@id}", "grade") %>">
+      </label></li>
+
+      <li><label><p>Parent:</p>
+        <input type="text" name="parent" value="<%= $redis.hget("student:#{@id}", "parent") %>">
+      </label></li>
+
+      <li><label><p>Parent Contact:</p>
+        <input type="text" name="contact" value="<%= $redis.hget("student:#{@id}", "contact") %>">
+      </label></li>
+      <li><input type="submit" name="Update"></li>
+    </form>
+  </ul>
+
+<% elsif @note_id == nil %>
+
+  <h2>Update Goals for <%= $redis.hget("student:#{@id}", "name") %></h2>
+
+    <ul class="update-goals">
+    <!-- write a proper route here -->
+      <% query_params = URI.encode_www_form({
+        :id       => @id
+        }) %>
+      <% goals_update = "/?" + query_params %>
+      <form method="post" action="<%= goals_update %>">
+        <li><label><p>Goals:</p>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[0] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[1] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[2] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[3] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[4] %>'>
+        </label></li>
+        <li><input type="submit" name="Update"></li>
+      </form>
+  </ul>
+
+<% else %>
+
+  <h2>Update <%= $redis.hget("student:#{@id}", "name") %>'s Note</h2>
+   <% require 'pry' %>
+    <% query_params = URI.encode_www_form({
+      :id        => @id,
+      :note_id   => @note_id
+      }) %>
+    <% note_update = "/students/?" + query_params %>
+    <form action="<%= note_update %>" method="post">
+      <label>
+        <% note = check_note(@id, @note_id) %>
+        <% binding.pry %>
+        <input type="text" name="progress_note" value="<%= JSON.parse(note)[2] %>">
+      </label>
+      <span class="star-rating">
+        <input type="radio" name="rating" value="1"><i></i>
+        <input type="radio" name="rating" value="2"><i></i>
+        <input type="radio" name="rating" value="3"><i></i>
+        <input type="radio" name="rating" value="4"><i></i>
+        <input type="radio" name="rating" value="5"><i></i>
+      </span>
+      <strong class="choice">Behavior</strong>
+      <input type="submit" name="Update">
+    </form>
+
+<% end %>
+
+
+
+
+

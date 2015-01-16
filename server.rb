@@ -4,7 +4,7 @@ module ProgressNotes
   class Server < Sinatra::Base
     helpers ProgressNotes::DatabaseHelper
 
-    enable :logging, :sessions
+    enable :logging, :sessions, :method_override
 
     configure :development do
       register Sinatra::Reloader
@@ -22,7 +22,6 @@ module ProgressNotes
         :redirect_uri   => "http://localhost:9292/linkedin/oauth_callback"
         })
       @linkedin_auth_url = "https://www.linkedin.com/uas/oauth2/authorization?" + query_params
-      binding.pry
       render(:erb, :index, {:layout => :default})
     end
 
@@ -50,41 +49,94 @@ module ProgressNotes
       redirect to('/')
     end
 
-    get('/students/new') do
+    get('/students/:id/edit') do
+      binding.pry
+    end
+
+    get('/students/new?:name?:note_id?:goals?') do
+      if params[:name] != nil
+        @id = check_student(params[:name])
+        if params[:goals] != nil
+          @goals = "goals"
+        elsif params[:note_id] != nil
+          @note_id = params[:note_id]
+        end
+      end
       render(:erb, :new, {:layout => :default})
     end
 
     get('/students/:id') do
       @id = params[:id]
       @student = $redis.hgetall("student:#{@id}")
-      binding.pry
       render(:erb, :show, {:layout => :default})
     end
 
-    post('/') do
-      sid = $redis.incr("student_id")
-      date = Date.today
-      $redis.hmset(
-        "student:#{sid}",
-        "name", params["name"],
-        "grade", params["grade"],
-        "parent", params["parent"],
-        "contact", params["contact"],
-        "goals", (params["goals"]).to_json, # this is now a string and needs to be called with JSON.parse(goals)
-        "teacher_admin", session[:l_name],
-        "sid", "#{sid}",
-        "date", Date.parse("#{date}").strftime("%b %d, %Y")
-        )
-      $redis.lpush("student_ids", sid)
+    post('/?:name?:id?') do
+      name = params[:name]
+      if params[:id] != nil
+        id = params[:id]
+        $redis.hset(
+          "student:#{id}",
+          "goals", (params["goals"]).to_json
+          )
+
+      elsif check_student(name) != nil
+        id = check_student(name).to_i
+        $redis.hmset(
+          "student:#{id}",
+          "grade", params["grade"],
+          "parent", params["parent"],
+          "contact", params["contact"]
+          )
+
+      else
+        sid = $redis.incr("student_id")
+        date = Date.today
+        $redis.hmset(
+          "student:#{sid}",
+          "name", params["name"],
+          "grade", params["grade"],
+          "parent", params["parent"],
+          "contact", params["contact"],
+          "goals", (params["goals"]).to_json, # this is now a string and needs to be called with JSON.parse(goals)
+          "teacher_admin", session[:l_name],
+          "sid", "#{sid}",
+          "date", Date.parse("#{date}").strftime("%b %d, %Y")
+          )
+        $redis.lpush("student_ids", sid)
+      end
       redirect('/')
     end
 
-    post('/students/:id') do
-      @id = params[:id]
-      teacher = params["addteacher"]
-      binding.pry
+    post('/students/?:id?:note_id?') do
+      @id           = params[:id]
+      teacher       = params["addteacher"]
       add_teacher(teacher)
+      if params[:note_id] != nil
+        @note_id = params[:note_id]
+        check_note(@id, @note_id)
+
+      elsif params["progress_note"] != nil
+        id = $redis.incr("note_ids")
+        date          = Date.today
+        progress_note = params["progress_note"]
+        behavior      = params["rating"]
+        teacher       = session[:l_name]
+        picture       = session[:user_image]
+        add_note(id, date, progress_note, teacher, behavior)
+      end
       redirect("/students/#{@id}")
+    end
+
+    delete('students/notes/:id/:note_id') do
+      biding.pry
+    end
+
+    delete('/students/:id') do
+      binding.pry
+      id = params[:id]
+      $redis.del("student:#{id}")
+      redirect to('/')
     end
 
   end

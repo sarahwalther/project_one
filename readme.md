@@ -26,3 +26,8 @@ As a teacher (user)...
 
 I can edit, add. or remove a goal after I created a student (hover and edit?)
 I can rate a student's behavior
+
+
+Issues to work out if there's time:
+student input to First Last name to save it as first_last
+add teachers by email address, not last name
