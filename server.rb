@@ -98,15 +98,7 @@ module ProgressNotes
       redirect to("/students/#{id}")
     end
 
-    get('/students/new?:name?:note_id?:goals?') do
-      if params[:name] != nil
-        @id = check_student(params[:name])
-        if params[:goals] != nil
-          @goals = "goals"
-        elsif params[:note_id] != nil
-          @note_id = params[:note_id]
-        end
-      end
+    get('/students/new') do
       render(:erb, :new, {:layout => :default})
     end
 
