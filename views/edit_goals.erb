@@ -1,1 +1,17 @@
-edit_goals.erb
+<div class="box">
+  <h2>Update Goals for <%= $redis.hget("student:#{@id}", "name") %></h2>
+
+    <ul class="update-goals">
+      <form method="post" action="/goals/student/<%= @id %>">
+        <li><label><p>Goals:</p>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[0] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[1] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[2] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[3] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[4] %>'>
+        </label></li>
+        <li><input type="submit" name="Update"></li>
+      </form>
+  </ul>
+
+</div>

@@ -66,10 +66,37 @@ module ProgressNotes
     end
 
     get('/goals/student/:id') do
+      @id = params[:id]
       render(:erb, :edit_goals, {:layout => :default})
     end
 
+    post('/goals/student/:id') do
+      id       = params[:id]
+      $redis.hset(
+          "student:#{id}",
+          "goals", (params[:goals]).to_json
+          )
+      redirect to("/students/#{id}")
+    end
 
+    get('/note/student/:id&:note_id') do
+      binding.pry
+      @id         = params[:id]
+      @note_id   = params[:note_id]
+      @note = check_note(@id, @note_id)
+      render(:erb, :edit_note, {:layout => :default})
+    end
+
+    post('/note/student/:id&:note_id') do
+      id            = params[:id]
+      note_id       = params[:note_id]
+      new_note      = params[:progress_note]
+      new_rating    = params[:rating]
+      date          = Date.today
+      author        = session[:l_name]
+      replace_note(id, note_id, date, new_note, author, new_rating)
+      redirect to("/students/#{id}")
+    end
 
     get('/students/new?:name?:note_id?:goals?') do
       if params[:name] != nil
@@ -89,46 +116,28 @@ module ProgressNotes
       render(:erb, :show, {:layout => :default})
     end
 
-    post('/?:name?:id?') do
-      name = params[:name]
-      if params[:id] != nil
-        id = params[:id]
-        $redis.hset(
-          "student:#{id}",
-          "goals", (params["goals"]).to_json
-          )
+    post('/') do
+      sid = $redis.incr("student_id")
+      date = Date.today
+      $redis.hmset(
+        "student:#{sid}",
+        "name", params["name"],
+        "grade", params["grade"],
+        "parent", params["parent"],
+        "contact", params["contact"],
+        "goals", (params["goals"]).to_json, # this is now a string and needs to be called with JSON.parse(goals)
+        "teacher_admin", session[:l_name],
+        "sid", "#{sid}",
+        "date", Date.parse("#{date}").strftime("%b %d, %Y")
+        )
+      $redis.lpush("student_ids", sid)
 
-      elsif check_student(name) != nil
-        id = check_student(name).to_i
-        $redis.hmset(
-          "student:#{id}",
-          "grade", params["grade"],
-          "parent", params["parent"],
-          "contact", params["contact"]
-          )
-
-      else
-        sid = $redis.incr("student_id")
-        date = Date.today
-        $redis.hmset(
-          "student:#{sid}",
-          "name", params["name"],
-          "grade", params["grade"],
-          "parent", params["parent"],
-          "contact", params["contact"],
-          "goals", (params["goals"]).to_json, # this is now a string and needs to be called with JSON.parse(goals)
-          "teacher_admin", session[:l_name],
-          "sid", "#{sid}",
-          "date", Date.parse("#{date}").strftime("%b %d, %Y")
-          )
-        $redis.lpush("student_ids", sid)
-      end
       redirect('/')
     end
 
     post('/students/?:id?:note_id?') do
       @id           = params[:id]
-      teacher       = params["addteacher"]
+      teacher       = params[:addteacher]
       add_teacher(teacher)
       if params[:note_id] != nil
         @note_id = params[:note_id]
@@ -137,8 +146,8 @@ module ProgressNotes
       elsif params["progress_note"] != nil
         id = $redis.incr("note_ids")
         date          = Date.today
-        progress_note = params["progress_note"]
-        behavior      = params["rating"]
+        progress_note = params[:progress_note]
+        behavior      = params[:rating]
         teacher       = session[:l_name]
         picture       = session[:user_image]
         add_note(id, date, progress_note, teacher, behavior)

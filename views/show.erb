@@ -37,12 +37,7 @@
     <li><%= goal %></li>
     <% end %>
   </ul>
-  <% query_params = URI.encode_www_form({
-    :name   => @student["sid"],
-    :goals  => "goal"
-    }) %>
-  <% goal_adjustment_link = "/edit_students/new/?" + query_params %>
-  <button><a href="<%= goal_adjustment_link %>">Edit Goals </a></button>
+  <button><a href="/goals/student/<%= @student["sid"] %>">Edit Goals </a></button>
 </div>
 
 <div class="box">
@@ -66,12 +61,8 @@
       <% note_array = JSON.parse(@student["notes"]) %>
       <% note_array.each do |note| %>
         <div class="note">
-          <% query_params = URI.encode_www_form({
-            :name      => @student["name"],
-            :note_id   => JSON.parse(note)[0]
-            }) %>
-          <% note_link = "/students/new?" + query_params %>
-          <h5><a href="<%= note_link %>"><%= JSON.parse(note)[1] %></a></h5>
+
+          <h5><a href="/note/student/<%= @student["sid"] %>&<%= JSON.parse(note)[0] %>"><%= JSON.parse(note)[1] %></a></h5>
 
           <form method="post" action="/students/notes/<%= @student["sid"] %>/<%= JSON.parse(note)[0] %>">
             <input type="hidden" name="_method" value="delete">

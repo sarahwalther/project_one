@@ -60,7 +60,7 @@ module ProgressNotes
       student_notes_as_string = $redis.hget("student:#{id}", "notes")
       student_notes = JSON.parse(student_notes_as_string)
       desired_note = student_notes.select do |note|
-        JSON.parse(note)[0] == note_id.to_i
+        JSON.parse(note)[0].to_i == note_id.to_i
       end
       desired_note[0]
     end
@@ -69,6 +69,30 @@ module ProgressNotes
       student_notes_as_string = $redis.hget("student:#{id}", "notes")
       student_notes = JSON.parse(student_notes_as_string)
       student_notes
+    end
+
+    def find_index(desired_note, student_notes)
+      index = student_notes.index(desired_note)
+    end
+
+    def replace_note(id, note_id, date, new_note, author, new_rating)
+      desired_note = check_note(id, note_id)
+      student_notes = find_notes_array(id, desired_note)
+      index = find_index(desired_note, student_notes)
+      date          = date.to_s
+      note_array    = JSON.parse(desired_note)
+      note_array[1].replace(date)
+      if new_note  != nil
+       note_array[2].replace(new_note)
+     end
+      note_array[3].replace(author)
+      if new_rating != nil
+        note_array[4].replace(new_rating)
+      end
+      student_notes[index].replace(note_array.to_json)
+      $redis.hset(
+        "student:#{id}",
+        "notes", student_notes.to_json)
     end
 
   end
