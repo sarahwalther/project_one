@@ -34,27 +34,6 @@
     </form>
   </ul>
 
-<% elsif (@goals == nil) && (@note_id == nil) %>
-
-  <h2>Update Student Info for <%= $redis.hget("student:#{@id}", "name") %></h2>
-
-  <ul class="update-student">
-    <form method="post" action="/<%= $redis.hget("student:#{@id}", "name") %>">
-
-      <li><label><p>Grade:</p>
-        <input type="text" name="grade" value="<%= $redis.hget("student:#{@id}", "grade") %>">
-      </label></li>
-
-      <li><label><p>Parent:</p>
-        <input type="text" name="parent" value="<%= $redis.hget("student:#{@id}", "parent") %>">
-      </label></li>
-
-      <li><label><p>Parent Contact:</p>
-        <input type="text" name="contact" value="<%= $redis.hget("student:#{@id}", "contact") %>">
-      </label></li>
-      <li><input type="submit" name="Update"></li>
-    </form>
-  </ul>
 
 <% elsif @note_id == nil %>
 

@@ -49,9 +49,27 @@ module ProgressNotes
       redirect to('/')
     end
 
-    get('/students/:id/edit') do
-      binding.pry
+    get('/edit_students/:id') do
+      @id = params[:id]
+      render(:erb, :edit, {:layout => :default})
     end
+
+    post('/edit_students/:id') do
+      id        = params[:id]
+      $redis.hmset(
+          "student:#{id}",
+          "grade", params["grade"],
+          "parent", params["parent"],
+          "contact", params["contact"]
+          )
+      redirect to("/students/#{id}")
+    end
+
+    get('/goals/student/:id') do
+      render(:erb, :edit_goals, {:layout => :default})
+    end
+
+
 
     get('/students/new?:name?:note_id?:goals?') do
       if params[:name] != nil
@@ -128,8 +146,16 @@ module ProgressNotes
       redirect("/students/#{@id}")
     end
 
-    delete('students/notes/:id/:note_id') do
-      biding.pry
+    delete('/students/notes/:id/:note_id') do
+      id = params[:id]
+      note_id = params[:note_id]
+      note = check_note(id, note_id)
+      note_array = find_notes_array(id, note_id)
+      note_array.delete(note)
+      $redis.hset(
+        "student:#{id}",
+        "notes", note_array.to_json)
+      redirect to("/students/#{id}")
     end
 
     delete('/students/:id') do

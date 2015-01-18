@@ -8,7 +8,7 @@
           <li><%= teacher %></li>
         <% end %>
       <% end %>
-    <li><a href="/students/new/<%= @student["name"] %>">Edit Student Info</a></li>
+    <li><a href="/edit_students/<%= @student["sid"] %>">Edit Student Info</a></li>
     <li>
       <form action="/students/<%= @student["sid"] %>" method="post">
         <label>Add Teacher:
@@ -38,10 +38,10 @@
     <% end %>
   </ul>
   <% query_params = URI.encode_www_form({
-    :name   => @student["name"],
+    :name   => @student["sid"],
     :goals  => "goal"
     }) %>
-  <% goal_adjustment_link = "/students/new/?" + query_params %>
+  <% goal_adjustment_link = "/edit_students/new/?" + query_params %>
   <button><a href="<%= goal_adjustment_link %>">Edit Goals </a></button>
 </div>
 
@@ -72,7 +72,7 @@
             }) %>
           <% note_link = "/students/new?" + query_params %>
           <h5><a href="<%= note_link %>"><%= JSON.parse(note)[1] %></a></h5>
-           <% require 'pry'; binding.pry %>
+
           <form method="post" action="/students/notes/<%= @student["sid"] %>/<%= JSON.parse(note)[0] %>">
             <input type="hidden" name="_method" value="delete">
             <input type="submit" value="delete">

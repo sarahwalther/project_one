@@ -60,12 +60,16 @@ module ProgressNotes
       student_notes_as_string = $redis.hget("student:#{id}", "notes")
       student_notes = JSON.parse(student_notes_as_string)
       desired_note = student_notes.select do |note|
-        # binding.pry
         JSON.parse(note)[0] == note_id.to_i
       end
       desired_note[0]
     end
 
+    def find_notes_array(id, note)
+      student_notes_as_string = $redis.hget("student:#{id}", "notes")
+      student_notes = JSON.parse(student_notes_as_string)
+      student_notes
+    end
 
   end
 end
