@@ -62,7 +62,7 @@
       <% note_array.each do |note| %>
         <div class="note">
 
-          <h5><a href="/note/student/<%= @student["sid"] %>&<%= JSON.parse(note)[0] %>"><%= JSON.parse(note)[1] %></a></h5>
+          <h5><a href="/note/student/<%= @student["sid"] %>&<%= JSON.parse(note)[0] %>"><%= Date.parse(JSON.parse(note)[1]).strftime("%b %d, %Y") %></a></h5>
 
           <form method="post" action="/students/notes/<%= @student["sid"] %>/<%= JSON.parse(note)[0] %>">
             <input type="hidden" name="_method" value="delete">

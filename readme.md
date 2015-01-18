@@ -15,6 +15,8 @@ As a teacher (user)...
 1. when I am in a student-room, I see a list of messages about the student.
 1. I can create time stamped student progress entries (messages).
 1. I can delete my own messages.
+1. I can edit, add. or remove a goal after I created a student
+1. I can rate a student's behavior
 1. I can search the messages by user and date.
 
 #### Icebox
@@ -24,8 +26,6 @@ As a teacher (user)...
 1. I can filter by tags that may have been added to the comments (ex: behavior).
 
 
-I can edit, add. or remove a goal after I created a student (hover and edit?)
-I can rate a student's behavior
 
 
 Issues to work out if there's time:
