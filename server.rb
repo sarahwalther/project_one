@@ -12,7 +12,10 @@ module ProgressNotes
     end
 
     configure :production do
-      $redis = Redis.new({url: ENV['REDISTOGO_URL']})
+      uri = URI.parse(ENV["REDISTOGO_URL"] || "redis://localhost:6379/" )
+      $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+      # Old way of connecting
+      # $redis = Redis.new({url: ENV['REDISTOGO_URL']})
     end
 
     $redis = Redis.new
