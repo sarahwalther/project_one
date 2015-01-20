@@ -20,7 +20,7 @@ module ProgressNotes
       $redis = Redis.new({url: ENV['REDISTOGO_URL']})
     end
 
-    $redis = Redis.new
+    # $redis = Redis.new
 
     get('/') do
       query_params = URI.encode_www_form({
