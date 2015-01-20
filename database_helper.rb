@@ -1,7 +1,6 @@
 module ProgressNotes
   module DatabaseHelper
 
-    $redis = Redis.new
 
     def get_user_info
       response = HTTParty.get("//api.linkedin.com/v1/people/~:(first-name,last-name,email-address,picture-url,headline)?format=json",

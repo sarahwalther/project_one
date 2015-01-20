@@ -7,15 +7,17 @@ module ProgressNotes
     enable :logging, :sessions, :method_override
 
     configure :development do
+      $redis = Redis.new
       register Sinatra::Reloader
       require 'pry'
     end
 
     configure :production do
-      uri = URI.parse(ENV["REDISTOGO_URL"] || "redis://localhost:6379/" )
-      $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+      # Trying a new method but didn't work
+      # uri = URI.parse(ENV["REDISTOGO_URL"] || "redis://localhost:6379/" )
+      # $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
       # Old way of connecting
-      # $redis = Redis.new({url: ENV['REDISTOGO_URL']})
+      $redis = Redis.new({url: ENV['REDISTOGO_URL']})
     end
 
     $redis = Redis.new
