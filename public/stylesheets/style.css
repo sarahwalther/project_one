@@ -1,19 +1,21 @@
 body {
-  border: 2px solid blue;
+  border: 7px solid #DCE1E6;
 
   font-family: 'Pompiere', cursive;
+  font-size: 20px;
 }
 
 .heading {
-  border:   2px solid red;
   position: fixed;
   display:  block;
   width:    100%;
+  background: #ECECED;
+  border: 3px solid #D4D4D5;
 }
 
 .heading h1 {
   display: inline-block;
-  width: 68%;
+  width: 66%;
   padding-left: 13%;
   font-family: 'Cabin Sketch', cursive;
   font-weight: 700;
@@ -34,9 +36,10 @@ a {
 }
 
 .box {
-  border:     2px solid green;
   margin: 92px 90px;
   background-color: #F0F0F5;
+  padding: 10px;
+  border: 5px solid #9EA2A6;
 }
 
 .box h2 {
@@ -45,37 +48,25 @@ a {
   font-weight: 300;
 }
 
-.personal {
-  border: 2px solid purple;
-}
-
 .pic {
   display: inline-block;
-  border: 2px solid green;
   margin-left: 37px;
 }
 
 .personal > p {
   display: inline-block;
-  border: 2px solid blue;
   vertical-align: top;
   margin-left: 15px;
   margin-top: 26px;
 }
 
 .overview {
-  border: 2px solid yellow;
   margin: 10px;
-
-}
-
-.inside-headers {
-  border: 2px solid purple;
 }
 
 .inside-headers h2 {
   display: inline-block;
-  width: 72%;
+  width: 66%;
   margin-bottom: 0;
 }
 
@@ -112,14 +103,14 @@ a {
   margin: 0 8px;
 }
 
-.top-of-student {
-  border: 2px solid yellow;
+.top-of-student ul {
+  margin-left: 30px;
 }
 
 .top-of-student h3 {
   margin-left: 45px;
   display: inline-block;
-  width: 72%;
+  width: 67%;
   margin-bottom: 0;
 }
 
@@ -132,13 +123,12 @@ a {
 }
 
 .note-form {
-  border: 2px solid black;
   margin-left: 45px;
 }
 
 .note-form label strong {
   vertical-align: top;
-  display: inline-block;
+  display: block;
 }
 
 .note-form form > input {
@@ -148,11 +138,8 @@ a {
 
 .rate {
   display: block;
-  margin-left: 164px;
-}
-
-.notes {
-  border: 2px solid orange;
+  margin-left: 7px;
+  margin-bottom: 15px;
 }
 
 .note {
@@ -162,12 +149,14 @@ a {
   margin-top: 5px;
   display: inline-block;
   vertical-align: top;
+  margin-bottom: 10px;
 }
 
 .writing {
   margin-left: 51px;
   display: inline-block;
   min-height: 312px;
+  font-size: 16px;
 }
 
 .writing img {
@@ -188,6 +177,7 @@ a {
 
 .writing p {
   line-height: 1.6;
+  margin-top: 13px;
 }
 
 .writing p img {
@@ -196,7 +186,7 @@ a {
 
 .signature {
   display: inline-block;
-  margin-bottom: 0;
+  margin-bottom: 9px;
 }
 
 .update-note {
@@ -268,9 +258,43 @@ a {
 
 /* end of the star-rating system */
 
-@media screen and (min-width: 900px)
+@media screen and (min-width: 900px) {
 
-.note {
-  border: 2px solid lightblue;
+.box {
+  width: 70%;
+  margin: 91px auto;
+}
+
+.heading h1 {
+  padding-left: 20%;
+  width: 53%;
+}
+
+.inside-headers {
+  margin-left: 75px;
+}
+
+.top-of-student {
+  margin-left: 75px;
+}
+
+.note-form {
+  margin-left: 112px;
+}
+
+.note-form {
+  margin-left: 45px;
+}
+
+.note-form label strong {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.note-form form > input {
+  vertical-align: top;
+  margin-left: 21px;
+}
+
 }
 
