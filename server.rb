@@ -80,7 +80,6 @@ module ProgressNotes
     end
 
     get('/note/student/:id&:note_id') do
-      binding.pry
       @id         = params[:id]
       @note_id   = params[:note_id]
       @note = check_note(@id, @note_id)
@@ -160,7 +159,6 @@ module ProgressNotes
     end
 
     delete('/students/:id') do
-      binding.pry
       id = params[:id]
       $redis.del("student:#{id}")
       redirect to('/')

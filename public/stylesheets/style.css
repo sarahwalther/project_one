@@ -1,0 +1,262 @@
+body {
+  border: 2px solid blue;
+
+  font-family: 'Pompiere', cursive;
+}
+
+.heading {
+  border:   2px solid red;
+  position: fixed;
+  display:  block;
+  width:    100%;
+}
+
+.heading h1 {
+  display: inline-block;
+  width: 68%;
+  padding-left: 13%;
+  font-family: 'Cabin Sketch', cursive;
+  font-weight: 700;
+}
+
+.heading ul {
+  display: inline-block;
+  padding: 0;
+  text-align: right;
+}
+
+.heading ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.box {
+  border:     2px solid green;
+  margin: 92px 90px;
+  background-color: #F0F0F5;
+}
+
+.box h2 {
+  font-family: 'Cabin Sketch', cursive;
+  margin-left: 30px;
+  font-weight: 300;
+}
+
+.personal {
+  border: 2px solid purple;
+}
+
+.pic {
+  display: inline-block;
+  border: 2px solid green;
+  margin-left: 37px;
+}
+
+.personal > p {
+  display: inline-block;
+  border: 2px solid blue;
+  vertical-align: top;
+  margin-left: 15px;
+  margin-top: 26px;
+}
+
+.overview {
+  border: 2px solid yellow;
+}
+
+.inside-headers {
+  border: 2px solid purple;
+}
+
+.inside-headers h2 {
+  display: inline-block;
+  width: 72%;
+  margin-bottom: 0;
+}
+
+.inside-headers form {
+  display: inline-block;
+  width: 21%;
+}
+
+.inside-headers li {
+  list-style: none;
+}
+
+.inside-headers li:nth-last-child(1) {
+  margin-top: 10px;
+}
+
+.teacher-info {
+  display: inline-block;
+  width: 49%;
+}
+
+.additional {
+  display: inline-block;
+  width: 49%;
+  vertical-align: top;
+  margin-top: 17px;
+}
+
+.additional form {
+  width: 100%;
+}
+
+.additional form select {
+  margin: 0 8px;
+}
+
+.top-of-student {
+  border: 2px solid yellow;
+}
+
+.top-of-student h3 {
+  margin-left: 45px;
+  display: inline-block;
+  width: 72%;
+  margin-bottom: 0;
+}
+
+.top-of-student li {
+  list-style:
+}
+
+.top-of-student button {
+  display: inline-block;
+}
+
+.note-form {
+  border: 2px solid black;
+  margin-left: 45px;
+}
+
+.note-form label strong {
+  vertical-align: top;
+  display: inline-block;
+}
+
+.note-form form > input {
+  vertical-align: top;
+  margin-left: 21px;
+}
+
+.rate {
+  display: block;
+  margin-left: 164px;
+}
+
+.notes {
+  border: 2px solid orange;
+}
+
+.note {
+    background-image: url(http://th04.deviantart.net/fs70/PRE/i/2010/350/9/5/notebook_paper_2_by_lefifistock-d34z9xn.jpg);
+  background-repeat-x: no-repeat;
+  width: 246px;
+  margin-top: 5px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.writing {
+  margin-left: 51px;
+  display: inline-block;
+  min-height: 312px;
+}
+
+.writing img {
+  border-radius: 50%;
+  width: 25px;
+  margin-right: 10px;
+}
+
+.writing h5 {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.writing form {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.writing p {
+  line-height: 1.6;
+}
+
+.writing p img {
+  margin-right: 0;
+}
+
+.signature {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+
+
+/* start of the star-rating system */
+
+.star-rating {
+  font-size: 0;
+  white-space: nowrap;
+  display: inline-block;
+  width: 125px;
+  height: 25px;
+  overflow: hidden;
+  position: relative;
+  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating i {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  z-index: 1;
+  background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  position: relative;
+}
+.star-rating input:hover + i,
+.star-rating input:checked + i {
+  opacity: 1;
+}
+.star-rating i ~ i {
+  width: 40%;
+}
+.star-rating i ~ i ~ i {
+  width: 60%;
+}
+.star-rating i ~ i ~ i ~ i {
+  width: 80%;
+}
+.star-rating i ~ i ~ i ~ i ~ i {
+  width: 100%;
+}
+
+/* end of the star-rating system */
+
+@media screen and (min-width: 900px)
+
+.note {
+  border: 2px solid lightblue;
+}
+

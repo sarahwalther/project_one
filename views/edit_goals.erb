@@ -9,6 +9,7 @@
           <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[2] %>'>
           <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[3] %>'>
           <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[4] %>'>
+          <input type="text" name="goals[]" value='<%= JSON.parse($redis.hget("student:#{@id}", "goals"))[5] %>'>
         </label></li>
         <li><input type="submit" name="Update"></li>
       </form>

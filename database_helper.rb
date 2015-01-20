@@ -95,5 +95,6 @@ module ProgressNotes
         "notes", student_notes.to_json)
     end
 
+
   end
 end

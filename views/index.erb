@@ -1,31 +1,38 @@
 <% if session[:f_name] %>
 
-  <h2>Hello <%= session[:f_name] %></h2>
+  <div class="box">
+    <h2>Hello <%= session[:f_name] %></h2>
 
-  <a href="/students/new">Add a new Student</a>
+      <div class="personal">
+        <div class="pic">
+          <p>Profile Picture:</p>
+          <img src="<%= session[:user_image] %>" alt="">
+        </div>
+        <p>Job Title: <%= session[:job_title] %></p>
+      </div>
 
-  <p>Well done, <%= session[:f_name] %>!
-     You are now verified with LinkedIn!</p>
-     <p>Here is your picture:</p>
-     <img src="<%= session[:user_image] %>" alt="">
-     <p>Job Title: <%= session[:job_title] %></p>
-
-     <h3>You are assigned to the following students:</h3>
-     <ul>
-        <% $redis.lrange("student_ids", 0, -1).each do |id| %>
-          <% if  $redis.hget("student:#{id}", "teachers") != nil %>
-            <% if JSON.parse($redis.hget("student:#{id}", "teachers")).include?(session[:l_name]) %>
-              <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
+      <div class="overview">
+        <a href="/students/new">Add a new Student</a>
+         <h3>You are assigned to the following students:</h3>
+         <ul>
+            <% $redis.lrange("student_ids", 0, -1).each do |id| %>
+              <% if  $redis.hget("student:#{id}", "teachers") != nil %>
+                <% if JSON.parse($redis.hget("student:#{id}", "teachers")).include?(session[:l_name]) %>
+                  <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
+                <% end %>
+              <% end %>
             <% end %>
-          <% end %>
-        <% end %>
-        <% $redis.lrange("student_ids", 0, -1).each do |id| %>
-          <% if $redis.hget("student:#{id}", "teacher_admin") == session[:l_name] %>
-            <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
-          <% end %>
-        <% end %>
-     </ul>
+            <% $redis.lrange("student_ids", 0, -1).each do |id| %>
+              <% if $redis.hget("student:#{id}", "teacher_admin") == session[:l_name] %>
+                <li><a href="/students/<%=id%>"><%= $redis.hget("student:#{id}", "name") %></a></li>
+              <% end %>
+            <% end %>
+         </ul>
+      </div>
+    </div>
 
-  <% else %>
-  <a href="<%= @linkedin_auth_url %>">Login with LinkedIn!</a>
+<% else %>
+  <div class="box">
+    <a href="<%= @linkedin_auth_url %>">Login with LinkedIn!</a>
+  </div>
 <% end %>

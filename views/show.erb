@@ -1,67 +1,74 @@
-<div class="inside-headers">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li>Teachers: </li>
-    <li><%= @student["teacher_admin"]%></li>
-      <% if @student["teachers"] != nil %>
-        <% JSON.parse(@student["teachers"]).each do |teacher| %>
-          <li><%= teacher %></li>
+<div class="box">
+  <div class="inside-headers">
+    <h2><%= @student["name"] %></h2>
+    <form method="post" action="/students/<%= @student["sid"] %>">
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" value="Delete Student">
+    </form>
+    <ul>
+      <div class="teacher-info">
+        <li><h3>Teachers: </h3></li>
+        <li><%= @student["teacher_admin"]%></li>
+          <% if @student["teachers"] != nil %>
+            <% JSON.parse(@student["teachers"]).each do |teacher| %>
+              <li><%= teacher %></li>
+            <% end %>
+          <% end %>
+      </div
+      ><div class="additional">
+        <li><a href="/edit_students/<%= @student["sid"] %>">Edit Student Info</a></li>
+        <li>
+          <form action="/students/<%= @student["sid"] %>" method="post">
+            <label>Add Teacher:
+              <select name="addteacher">
+                <% $redis.hkeys("teachers").each do |teacher| %>
+                  <option value="<%= teacher %>"><%= $redis.hget("teachers", teacher) %></a></option>
+                <% end %>
+              </select>
+            </label>
+              <input type="submit" name="submit">
+          </form>
+        </li>
+      </div>
+    </ul>
+  </div>
+
+  <div class="top-of-student">
+    <h3>Goals:</h3>
+    <button><a href="/goals/student/<%= @student["sid"] %>">Edit Goals </a></button>
+    <ul>
+      <% JSON.parse(@student["goals"]).each do |goal| %>
+        <%if goal != "" %>
+          <li><%= goal %></li>
         <% end %>
       <% end %>
-    <li><a href="/edit_students/<%= @student["sid"] %>">Edit Student Info</a></li>
-    <li>
-      <form action="/students/<%= @student["sid"] %>" method="post">
-        <label>Add Teacher:
-          <select name="addteacher">
-            <% $redis.hkeys("teachers").each do |teacher| %>
-              <option value="<%= teacher %>"><%= $redis.hget("teachers", teacher) %></a></option>
-            <% end %>
-          </select>
-        </label>
-          <input type="submit" name="submit">
-      </form>
-    </li>
-  </ul>
-</div>
+    </ul>
+  </div>
 
-<div class="top-of-student">
-  <h2><%= @student["name"] %></h2>
-  <form method="post" action="/students/<%= @student["sid"] %>">
-    <input type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete Student">
-  </form>
-
-  <h4>Goals:</h4>
-  <ul>
-    <% JSON.parse(@student["goals"]).each do |goal| %>
-    <li><%= goal %></li>
-    <% end %>
-  </ul>
-  <button><a href="/goals/student/<%= @student["sid"] %>">Edit Goals </a></button>
-</div>
-
-<div class="box">
-  <form action="/students/<%= @student["sid"] %>" method="post">
-    <label>Create a new Progress Note:
-      <input type="text" name="progress_note">
-    </label>
-    <span class="star-rating">
-      <input type="radio" name="rating" value="1"><i></i>
-      <input type="radio" name="rating" value="2"><i></i>
-      <input type="radio" name="rating" value="3"><i></i>
-      <input type="radio" name="rating" value="4"><i></i>
-      <input type="radio" name="rating" value="5"><i></i>
-    </span>
-    <strong class="choice">Behavior</strong>
-    <input type="submit" name="submit">
-  </form>
-
+  <div class="note-form">
+    <form action="/students/<%= @student["sid"] %>" method="post">
+      <label><strong>Create a new Progress Note:</strong>
+        <textarea type="text" name="progress_note" style="height:100px;width:200px" height="30px"></textarea>
+      </label>
+      <input type="submit" name="submit">
+      <div class="rate">
+        <strong class="choice">Behavior: </strong>
+        <span class="star-rating">
+          <input type="radio" name="rating" value="1"><i></i>
+          <input type="radio" name="rating" value="2"><i></i>
+          <input type="radio" name="rating" value="3"><i></i>
+          <input type="radio" name="rating" value="4"><i></i>
+          <input type="radio" name="rating" value="5"><i></i>
+        </span>
+      </div>
+    </form>
+  </div>
   <div class="notes">
     <% if $redis.hget("student:#{@student["sid"]}", "notes") != nil %>
       <% note_array = JSON.parse(@student["notes"]) %>
       <% note_array.each do |note| %>
         <div class="note">
-
+         <div class="writing">
           <h5><a href="/note/student/<%= @student["sid"] %>&<%= JSON.parse(note)[0] %>"><%= Date.parse(JSON.parse(note)[1]).strftime("%b %d, %Y") %></a></h5>
 
           <form method="post" action="/students/notes/<%= @student["sid"] %>/<%= JSON.parse(note)[0] %>">
@@ -69,15 +76,20 @@
             <input type="submit" value="delete">
           </form>
           <p><%= JSON.parse(note)[2] %></p>
-          <p><%= JSON.parse(note)[3] %></p>
           <img src="<%= $redis.hget("teacher_thumbnails", JSON.parse(note)[3]) %>" alt="picture of teacher">
+          <p class="signature"><%= JSON.parse(note)[3] %></p>
           <p>Behavior Rating: </p>
-          <p><%= JSON.parse(note)[4] %> Stars</p>
+          <p><% stars = (JSON.parse(note)[4]).to_i.times do |x|%>
+            <img src="<%= "https://programmingthomas.files.wordpress.com/2012/05/star.png" %>">
+            <% end %></p>
+         </div>
         </div>
       <% end %>
     <% end %>
   </div>
 </div>
+
+
 
 
 
