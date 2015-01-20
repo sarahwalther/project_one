@@ -12,7 +12,7 @@ module ProgressNotes
     end
 
     configure :production do
-      $redis = Redis.new({url: ENV[:REDISTOGO_URL]})
+      $redis = Redis.new({url: ENV['REDISTOGO_URL']})
     end
 
     $redis = Redis.new
