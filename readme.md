@@ -42,6 +42,7 @@ As a teacher (user)...
 * Sinatra Gem - a web framework to build the skelleton of the app
 * HTTParty Gem - to access the LinkedIn API
 * JSON Gem - to translate from and to Ruby
+* Sinatra-Contrib Gem - to add Sinatra Reloader and other items
 
 ## Instructions to run this App locally
 
@@ -49,6 +50,8 @@ Clone the Repo and cd into it
 
 	$ git clone git@github.com:sarahmcalear/project_one.git
 	$ cd project_one
+
+To run this App, a LinkedIn API key is required. [Click here](https://thechamplord.wordpress.com/2014/01/26/getting-linkedin-api-key/) to learn how to get the API key
 
 Now install the required Gems and boot up your Redis server and start you app in separate Terminal windows
 
