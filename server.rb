@@ -13,14 +13,8 @@ module ProgressNotes
     end
 
     configure :production do
-      # Trying a new method but didn't work
-      # uri = URI.parse(ENV["REDISTOGO_URL"] || "redis://localhost:6379/" )
-      # $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-      # Old way of connecting
       $redis = Redis.new({url: ENV['REDISTOGO_URL']})
     end
-
-    # $redis = Redis.new
 
     get('/') do
       query_params = URI.encode_www_form({
