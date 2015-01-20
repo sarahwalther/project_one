@@ -23,7 +23,7 @@ module ProgressNotes
         :scope          => "r_basicprofile r_emailaddress",
         :response_type  => "code",
         :state          => "YGCFTRDfd3245ghjfhd",
-        :redirect_uri   => "http://localhost:9292/linkedin/oauth_callback"
+        :redirect_uri   => ENV["RACK_ENV"] == 'production' ? "https://progress-notes.herokuapp.com/linkedin/oauth_callback" : "http://localhost:9292/linkedin/oauth_callback"
         })
       @linkedin_auth_url = "https://www.linkedin.com/uas/oauth2/authorization?" + query_params
       render(:erb, :index, {:layout => :default})
@@ -35,7 +35,7 @@ module ProgressNotes
           :code           => params[:code],
           :client_id      => ENV["LINKEDIN_OAUTH_ID"],
           :client_secret  => ENV["LINKEDIN_OAUTH_SECRET"],
-          :redirect_uri   => "http://localhost:9292/linkedin/oauth_callback",
+          :redirect_uri   => ENV["RACK_ENV"] == 'production' ? "https://progress-notes.herokuapp.com/linkedin/oauth_callback" : "http://localhost:9292/linkedin/oauth_callback"  ,
           :grant_type     => "authorization_code"
           },
           :headers  => {
