@@ -11,6 +11,8 @@ body {
   width:    100%;
   background: #ECECED;
   border: 3px solid #D4D4D5;
+  margin-top: -7px;
+  margin-left: -7px;
 }
 
 .heading h1 {

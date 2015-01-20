@@ -24,10 +24,10 @@ As a teacher (user)...
 1. I can delete my own messages.
 1. I can edit, add. or remove a goal after I created a student
 1. I can rate a student's behavior
-1. I can search the messages by user and date.
 
 #### Icebox
 
+1. I can search the messages by user and date.
 1. I can see uploaded visual aids and other graphic information. (make this more explicit)
 1. I can comment on other teachers' messages.
 1. I can filter by tags that may have been added to the comments (ex: behavior).
