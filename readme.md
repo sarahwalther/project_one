@@ -2,7 +2,7 @@
 
 > It can be very tricky for special ed teachers to keep track of the daily progress students are making with the limited time there is available. Here is a quick way of adding a line or two about the way the day went for teachers.
 
-![Picture of School](http://www.clipartbest.com/cliparts/MKT/jo7/MKTjo7Liq.png =700x)
+![Picture of School](http://www.clipartbest.com/cliparts/MKT/jo7/MKTjo7Liq.png)
 
 
 ## User Stories
